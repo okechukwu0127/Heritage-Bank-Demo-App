@@ -12,6 +12,18 @@ target 'Octopus' do
 
   pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
 
+  pod 'RNUxcam', :path => '../node_modules/react-native-ux-cam'
+
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
+  pod 'RNFBAnalytics', :path => '../node_modules/@react-native-firebase/analytics'
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'OctopusTests' do
     inherit! :complete
     # Pods for testing

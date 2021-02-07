@@ -4,6 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.analytics.ReactNativeFirebaseAnalyticsPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.microsoft.codepush.react.CodePush;
+
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+//import io.invertase.firebase.RNFirebasePackage;
+import com.uxcam.RNUxcamPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 //import com.rn.full.screen.FullScreenModule;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -29,7 +36,13 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          //new CodePush(getResources().getString(R.string.CodePushDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
           return packages;
+        }
+
+        @Override
+        protected String getJSBundleFile() {
+            return CodePush.getJSBundleFile();
         }
 
         @Override

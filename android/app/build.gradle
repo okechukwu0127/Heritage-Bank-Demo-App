@@ -84,6 +84,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -185,6 +186,11 @@ android {
 
 
 dependencies {
+
+    compile project(':react-native-code-push')
+
+    compile project(':react-native-ux-cam')
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
@@ -195,6 +201,8 @@ dependencies {
       implementation 'com.google.android.gms:play-services-auth:17.0.0'
        //implementation 'com.google.android.gms:play-services-wallet:18.0.0'
         implementation 'com.google.android.gms:play-services-wallet:16.0.0'
+
+        //implementation 'com.google.firebase:firebase-core:17.0.0'
       
 
 
@@ -232,3 +240,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 
 apply plugin: 'com.google.gms.google-services'
+

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Octopus</string>
+
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
+
+
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">o5mDj8c2YI6yr9tgH-qdm8YlD2884fUx0aMyD</string>
+ <string moduleConfig="true" name="CodePushDeploymentKey">o5mDj8c2YI6yr9tgH-qdm8YlD2884fUx0aMyD</string>
 </resources>

@@ -5,6 +5,9 @@ import Svg, {Image,Circle, ClipPath, Path } from 'react-native-svg'
 import Animated, { Easing } from 'react-native-reanimated';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+ import Analytics from 'appcenter-analytics';
+ //import firebase from 'react-native-firebase';
 
 
 const { width, height } = Dimensions.get('window');
@@ -27,6 +30,9 @@ const {
   concat,
   Extrapolate
 } = Animated;
+
+
+
 
 function runTiming(clock, value, dest) {
   const state = {
@@ -56,12 +62,24 @@ function runTiming(clock, value, dest) {
     state.position
   ]);
 }
+
+//const navigation = useNavigation();
+
+ 
+
+
+
 class LoginAnimate extends Component {
   constructor(props) {
-    
+
+  
      super(props)
+
+     let HomePage = props.HomePage;
+
           this.state={
-        
+        username:'',
+        password:'',
           loggedIn: false,
           userInfo:null,
        
@@ -135,6 +153,9 @@ class LoginAnimate extends Component {
 
    componentDidMount(){
 
+    
+    // alert(JSON.stringify(navigation))
+
      GoogleSignin.configure({  
           webClientId: '937554167743-nfs0mudbd5m4bq856jpklbs8cs3cb7ao.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
           offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
@@ -184,7 +205,27 @@ class LoginAnimate extends Component {
       }
     };
 
+
+
+
+
+onChangeData (text)
+{
+
+   this.setState({username:text})
+    
+                
+}
+
+onChangePasswordData(text)
+{
+  this.setState({password:text})
+}
+    
+
   render() {
+   
+
     return (
       <View
         style={{
@@ -232,9 +273,9 @@ class LoginAnimate extends Component {
             <Svg height={74} width={115}>
           
          <Image
-            href={require('./assets/logoOutline.png')}
-            height={74} 
-            width={120}
+            href={require('./assets/HB-logo.fw.png')}
+            height={84} 
+            width={130}
            // preserveAspectRatio="xMidYMid slice"
             //clipPath="url(#clip)"
           />
@@ -261,7 +302,7 @@ class LoginAnimate extends Component {
               
           </ClipPath>
          <Image
-            href={require('./assets/mobile_bg_new_1.fw.png')}
+            href={require('./assets/mobile_bg_new_hb.fw.png')}
             height={height+50} 
             width={width}
             preserveAspectRatio="xMidYMid slice"
@@ -280,19 +321,19 @@ class LoginAnimate extends Component {
                 transform: [{ translateY: this.buttonY }]
               }}
             >
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>LOGIN </Text>
+              <Text style={{ fontSize: 15, fontWeight: 'bold' }}>LOGIN </Text>
             </Animated.View>
           </TapGestureHandler>
           <Animated.View
             style={{
               ...styles.button,
-              backgroundColor: '#2E71DC',
+              backgroundColor: '#000',
               opacity: this.buttonOpacity,
               transform: [{ translateY: this.buttonY }]
             }}
           >
           <TouchableOpacity onPress={this._signIn}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
+            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>
              LOGIN WITH GOOGLE
             </Text>
             </TouchableOpacity>
@@ -319,12 +360,12 @@ class LoginAnimate extends Component {
 
 
                   <TextInput
-                  placeholder="Email"
+                  placeholder="Email" onChangeText={ v => this.onChangeData(v)}
                    style={styles.textInput}
                    placeholderTextColor="black"
                   />
 
-                  <TextInput
+                  <TextInput  secureTextEntry={true} onChangeText={ v => this.onChangePasswordData(v)}
                   placeholder="Password" 
                    style={styles.textInput}
                    placeholderTextColor="black"
@@ -332,9 +373,59 @@ class LoginAnimate extends Component {
 
 
                   <Animated.View style={styles.button} >
-                    <Text style={{fontSize:20,fontWeight:'bold'}}>
+                  <TouchableOpacity  
+                     onPress={() => {
+                       if(this.state.username=='')
+                       {
+                         alert('Kindly provide an EMAIL to Login')
+
+                       }
+                       else{
+
+                        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                      if (reg.test(this.state.username) === false) {
+                        alert('Not a Valid Email Address')
+
+                        Analytics.trackEvent('Access Denied',{email: this.state.username});
+                        //firebase.analytics().logEvent("Access Denied", {"email": this.state.username});
+                        
+                        return false;
+                      }
+                      else {
+
+                        if(this.state.password=='12345')
+                        {
+                          Analytics.trackEvent('Login Success',{email: this.state.username});
+                        //firebase.analytics().logEvent("Login Success", {"email": this.state.username});
+                        this.props.navigation.navigate('Home', {email:this.state.username})
+
+                        }
+                        else{
+
+                           alert('Password should be 12345')
+                           Analytics.trackEvent('Access Denied',{email: this.state.username});
+
+                        }
+                        
+                        
+                      }
+                      
+                         
+
+                       }
+                      
+                      } }
+                  
+                    
+                    //this.props.navigation.navigate('Home')
+                  >
+                  
+                     <Text style={{fontSize:15,fontWeight:'bold'}}>
                       LOGIN
                     </Text>
+
+                  </TouchableOpacity>
+                   
                   
                   </Animated.View>
           </Animated.View>
@@ -355,7 +446,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'white',
-    height: 60,
+    height: 50,
     marginHorizontal: 40,
     borderRadius: 35,
     alignItems: 'center',
